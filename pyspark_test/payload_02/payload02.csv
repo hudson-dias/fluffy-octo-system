@@ -1,0 +1,11 @@
+Id,Transacao,Documento,Data_Inicio
+1,Compra,Rua 1,2021-01-01
+2,Venda,Rua 2,2021-01-02
+3,Locacao,Rua 3,2021-01-03
+4,Doacao,Rua 4,2021-01-04
+5,Emprestimo,Rua 5,2021-01-05
+6,Compra,Rua 6,2021-01-06
+7,Venda,Rua 7,2021-01-07
+8,Locacao,Rua 8,2021-01-08
+9,Doacao,Rua 9,2021-01-09
+10,Emprestimo,Rua 10,2021-01-10
