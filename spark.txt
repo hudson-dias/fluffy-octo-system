@@ -1,8 +1,15 @@
-def convert_struct_date_columns(df, struct_column, subfields):
-    new_struct = struct(
-        *[col(f"{struct_column}.{field}").alias(field) for field in df.schema[struct_column].dataType.fieldNames() if field not in subfields] +
-        [date_format(to_timestamp(col(f"{struct_column}.{field}"), "yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss").alias(field) for field in subfields]
+def convert_date_columns_struct_array(df, struct_col_name, subfields):
+
+    def apply_date_conversion(subfield):
+        return date_format(to_timestamp(col(subfield), "yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss").alias(subfield)
+    
+    transformed_column = transform(
+        col(struct_col_name),
+        lambda x: struct(
+            *[x[subfield].alias(subfield) for subfield in x.schema.fieldNames() if subfield not in subfields],
+            *[apply_date_conversion(x[subfield]).alias(subfield) for subfield in subfields]
+        )
     )
     
-    df = df.withColumn(struct_column, new_struct)
+    df = df.withColumn(struct_col_name, transformed_column)
     return df
